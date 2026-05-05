@@ -1,0 +1,155 @@
+<% layout('/layouts/boilerplate.ejs') -%>
+
+<body class="bg-main">
+  <%- include('../includes/navbar.ejs') -%>
+
+  <div class="container d-flex justify-content-center py-5">
+
+    <div class="card location-card shadow-sm border-0 w-100">
+      <div class="card-body">
+
+        <h1 class="text-center mb-4 heading-title">
+          Add new location
+        </h1>
+
+        <form
+          action="/listings"
+          method="POST"
+          novalidate
+          class="needs-validation"
+          enctype="multipart/form-data">
+
+          <!-- Title -->
+          <div class="mb-3">
+            <label for="title" class="form-label fw-semibold text-label">
+              Title
+            </label>
+            <input
+              type="text"
+              id="title"
+              name="title"
+              class="form-control input-custom"
+              required>
+            <div class="valid-feedback">Looks good!</div>
+          </div>
+
+          <!-- Description -->
+          <div class="mb-3">
+            <label for="description" class="form-label fw-semibold text-label">
+              Description
+            </label>
+            <input
+              type="text"
+              id="description"
+              name="description"
+              class="form-control input-custom"
+              required>
+            <div class="invalid-feedback">
+              Description should be filled
+            </div>
+          </div>
+
+          <!-- Price -->
+          <div class="mb-3">
+            <label for="price" class="form-label fw-semibold text-label">
+              Price
+            </label>
+            <input
+              type="text"
+              id="price"
+              name="price"
+              class="form-control input-custom"
+              required>
+            <div class="invalid-feedback">
+              Price should be valid
+            </div>
+          </div>
+
+          <!-- Image -->
+          <div class="mb-3">
+            <label for="image" class="form-label fw-semibold text-label">
+              Image
+            </label>
+            <input
+              type="file"
+              id="image"
+              name="image"
+              class="form-control input-custom"
+              required>
+          </div>
+
+          <!-- Location -->
+          <div class="mb-3">
+            <label for="location" class="form-label fw-semibold text-label">
+              Location
+            </label>
+            <input
+              type="text"
+              id="location"
+              name="location"
+              class="form-control input-custom"
+              required>
+            <div class="invalid-feedback">
+              Location should be valid
+            </div>
+          </div>
+
+          <!-- Country -->
+          <div class="mb-4">
+            <label for="country" class="form-label fw-semibold text-label">
+              Country
+            </label>
+            <input
+              type="text"
+              id="country"
+              name="country"
+              class="form-control input-custom"
+              required>
+            <div class="invalid-feedback">
+              Country should be valid
+            </div>
+          </div>
+
+          <!-- Category -->
+          <div class="mb-4">
+            <label for="category" class="form-label fw-semibold text-label">
+              Category
+            </label>
+            <select
+              id="category"
+              name="category"
+              class="form-select input-custom"
+              required>
+              <option value="" disabled selected>Select a category</option>
+              <option value="Trending">Trending</option>
+              <option value="Rooms">Rooms</option>
+              <option value="Entire Homes">Entire Homes</option>
+              <option value="Beach">Beach</option>
+              <option value="Mountain">Mountain</option>
+              <option value="City">City</option>
+              <option value="Nature">Nature</option>
+              <option value="Resorts">Resorts</option>
+              <option value="Adventure">Adventure</option>
+              <option value="Snow">Snow</option>
+              <option value="Luxury">Luxury</option>
+              <option value="Wellness">Wellness</option>
+              <option value="Family">Family</option>
+            </select>
+            <div class="invalid-feedback">
+              Please select a category
+            </div>
+          </div>
+
+          <!-- SUBMIT -->
+          <div class="d-grid">
+            <button type="submit" class="btn btn-add-place">
+              Add place
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+
+  </div>
+</body>

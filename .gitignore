@@ -1,0 +1,7 @@
+
+utils/geo.js
+# dependencies
+node_modules/
+
+# environment variables
+.env

@@ -1,0 +1,207 @@
+<% layout('/layouts/boilerplate.ejs') -%>
+<body class="venue-body">
+  <%- include('../includes/navbar.ejs') -%>
+  <%- include('../includes/flash.ejs')-%>
+
+  <div class="page-wrapper container py-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-10 col-xl-8">
+
+        <!-- Top Bar -->
+        <div class="top-bar d-flex justify-content-between align-items-center mb-4">
+          <h1 class="venue-title h2 mb-0">Venue Details</h1>
+          <button class="btn venue-back-btn px-3" onclick="history.back()">
+            <i class="fa-solid fa-arrow-left me-2"></i>Back
+          </button>
+        </div>
+
+        <!-- VENUE CARD -->
+        <div class="venue-card shadow-sm mb-5">
+          <div class="position-relative">
+            <img
+              src="<%= venue.image.url || venue.image %>"
+              alt="venue image"
+              class="venue-img w-100"
+            >
+            <!-- ADMIN BUTTONS Overlay -->
+            <% if(currUser && currUser._id.equals(venue.owner._id)) { %>
+              <div class="admin-buttons p-3">
+                <a href="/listings/<%= venue._id %>/edit" class="btn btn-light btn-sm rounded-pill shadow-sm px-3 border">
+                  <i class="fa-solid fa-pen-to-square me-1"></i> Edit
+                </a>
+                <form
+                  method="POST"
+                  action="/listings/<%= venue._id %>?_method=DELETE"
+                  onsubmit="return confirm('Are you sure you want to delete?')"
+                  class="d-inline ms-2">
+                  <button class="btn btn-danger btn-sm rounded-pill shadow-sm px-3">
+                    <i class="fa-solid fa-trash me-1"></i> Delete
+                  </button>
+                </form>
+              </div>
+            <% } %>
+          </div>
+
+          <div class="venue-content">
+            <div class="d-flex justify-content-between align-items-start mb-3">
+              <div>
+                <h2 class="fw-bold mb-1"><%= venue.title %></h2>
+                <p class="text-muted mb-0">
+                  <i class="fa-solid fa-circle-user me-1 text-danger"></i>
+                  Hosted by <span class="fw-semibold text-dark"><%= venue.owner.username %></span>
+                </p>
+              </div>
+              <div class="text-end">
+                <p class="venue-price mb-0">
+                  ₹ <%= venue.price.toLocaleString("en-IN") %>
+                </p>
+                <span class="text-muted small">per night</span>
+              </div>
+            </div>
+
+            <hr class="my-4 opacity-10">
+
+            <div class="venue-details-section">
+              <h5 class="fw-bold mb-3">About this place</h5>
+              <p class="venue-desc lh-lg mb-4 text-secondary"><%= venue.description %></p>
+              
+              <p class="venue-location mb-4">
+                <i class="fa-solid fa-location-dot text-danger"></i>
+                <span class="fw-medium text-dark"><%= venue.location %>, <%= venue.country %></span>
+              </p>
+            </div>
+
+            <!-- MAIN ACTIONS -->
+            <div class="actions-main d-flex gap-3 mt-4 pt-2">
+              <button class="btn venue-btn-primary px-5 py-2 fw-bold flex-grow-1 shadow-sm">
+                Book Now
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <hr class="my-5 opacity-10">
+
+        <!-- REVIEWS SECTION -->
+        <div class="row">
+          <div class="col-12">
+            <% if (currUser) { %>
+              <div class="review-section mb-5">
+                <div class="review-card-main shadow-sm border p-4 rounded-4 bg-white">
+                  <h4 class="fw-bold mb-4">Leave a Review</h4>
+
+                  <form
+                    class="needs-validation"
+                    novalidate
+                    action="/listings/<%= venue._id %>/reviews"
+                    method="POST">
+
+                    <div class="mb-4">
+                      <label class="form-label fw-semibold">Rating</label>
+                      <div class="star-rating fs-3">
+                        <input type="radio" name="review[rating]" id="star5" value="5" required><label for="star5">★</label>
+                        <input type="radio" name="review[rating]" id="star4" value="4"><label for="star4">★</label>
+                        <input type="radio" name="review[rating]" id="star3" value="3"><label for="star3">★</label>
+                        <input type="radio" name="review[rating]" id="star2" value="2"><label for="star2">★</label>
+                        <input type="radio" name="review[rating]" id="star1" value="1"><label for="star1">★</label>
+                      </div>
+                    </div>
+
+                    <div class="mb-4">
+                      <label class="form-label fw-semibold">Comment</label>
+                      <textarea
+                        class="form-control rounded-3 p-3 border-light bg-light"
+                        name="review[comment]"
+                        rows="3"
+                        placeholder="What did you think of this place?"
+                        required style="border: 1px solid #eee !important;"></textarea>
+                    </div>
+
+                    <button class="btn venue-btn-primary px-4 py-2 fw-semibold">
+                      Post Review
+                    </button>
+                  </form>
+                </div>
+              </div>
+            <% } %>
+
+            <!-- REVIEW LIST -->
+            <% if (venue.reviews && venue.reviews.length > 0) { %>
+              <div class="d-flex justify-content-between align-items-center mb-4">
+                <h4 class="fw-bold mb-0">What guests say</h4>
+                <div class="badge bg-light text-dark border px-3 py-2 rounded-pill">
+                  <%= venue.reviews.length %> Reviews
+                </div>
+              </div>
+              
+              <div class="review-list">
+                <% for (let review of venue.reviews) { %>
+                  <div class="review-item shadow-sm border-0 bg-white">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                      <div class="d-flex align-items-center gap-2">
+                        <div class="bg-danger text-white rounded-circle d-flex align-items-center justify-content-center fw-bold" style="width: 32px; height: 32px; font-size: 14px;">
+                          <%= review.author.username[0].toUpperCase() %>
+                        </div>
+                        <strong class="text-dark"><%= review.author.username %></strong>
+                      </div>
+                      <div class="starability-result scale-75" data-rating="<%= review.rating %>"></div>
+                    </div>
+
+                    <p class="review-text text-muted mb-3"><%= review.comment %></p>
+
+                    <% if (currUser && currUser._id.equals(review.author._id)) { %>
+                      <form
+                        method="POST"
+                        action="/listings/<%= venue._id %>/reviews/<%= review._id %>?_method=DELETE"
+                        class="text-end">
+                        <button class="btn btn-link btn-sm text-danger text-decoration-none p-0">
+                          <i class="fa-solid fa-trash-can me-1"></i> Delete
+                        </button>
+                      </form>
+                    <% } %>
+                  </div>
+                <% } %>
+              </div>
+            <% } %>
+          </div>
+        </div>
+
+        <!-- MAP SECTION -->
+        <div class="map-section mt-5 pt-4">
+          <h4 class="fw-bold mb-4">Location</h4>
+          <div class="map-wrapper shadow-sm rounded-4 overflow-hidden border">
+            <div id="map" style="height: 400px; width: 100%;"></div>
+          </div>
+          <div class="mt-3 text-muted">
+             <i class="fa-solid fa-circle-info me-1"></i>
+             Exact location provided after booking.
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>div>
+    </div>
+
+  </div>
+
+  <!-- MAP SCRIPT (UNCHANGED) -->
+  <script>
+    const lat = <%= venue.geometry.coordinates[1] %>;
+    const lng = <%= venue.geometry.coordinates[0] %>;
+
+    const map = L.map("map").setView([lat, lng], 13);
+
+    L.tileLayer(
+      "https://maps.geoapify.com/v1/tile/carto/{z}/{x}/{y}.png?apiKey=<%= apiKey %>",
+      { attribution: "© Geoapify" }
+    ).addTo(map);
+
+    L.marker([lat, lng])
+      .addTo(map)
+      .bindPopup("<b><%= venue.title %></b><br><%= venue.location %>")
+      .openPopup();
+  </script>
+
+  <%- include('../includes/footer.ejs') -%>
+</body>

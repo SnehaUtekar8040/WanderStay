@@ -1,0 +1,162 @@
+<!-- <% layout('/layouts/boilerplate.ejs') -%> -->
+<body class="bg-main d-flex justify-content-center align-items-start py-5">
+
+  <div class="page-wrapper w-100">
+
+    <!-- Back Button -->
+    <button class="back-btn" onclick="history.back()">← Back</button>
+
+    <div class="card edit-card shadow-sm border-0 mx-auto">
+      <div class="card-body">
+
+        <h1 class="form-title text-center mb-4">
+          Edit details
+        </h1>
+
+        <form
+          action="/listings/<%= list._id %>?_method=PATCH"
+          method="POST"
+          novalidate
+          class="needs-validation"
+          enctype="multipart/form-data">
+
+          <!-- Title -->
+          <div class="mb-3">
+            <label for="title" class="form-label fw-semibold text-label">
+              Title
+            </label>
+            <input
+              type="text"
+              id="title"
+              name="title"
+              class="form-control input-custom"
+              value="<%= list.title %>"
+              required>
+            <div class="valid-feedback">Looks good</div>
+          </div>
+
+          <!-- Description -->
+          <div class="mb-3">
+            <label for="description" class="form-label fw-semibold text-label">
+              Description
+            </label>
+            <input
+              type="text"
+              id="description"
+              name="description"
+              class="form-control input-custom"
+              value="<%= list.description %>"
+              required>
+            <div class="invalid-feedback">
+              Description should be filled
+            </div>
+          </div>
+
+          <!-- Current Image -->
+          <div class="mb-3 text-center">
+            <p class="fw-semibold text-label mb-2">Current image</p>
+            <img
+              src="<%= originalImageUrl %>"
+              alt="no image"
+              class="current-img img-fluid">
+          </div>
+
+          <!-- New Image -->
+          <div class="mb-3">
+            <label for="image" class="form-label fw-semibold text-label">
+              Change image
+            </label>
+            <input
+              type="file"
+              id="image"
+              name="image"
+              class="form-control input-custom">
+            <div class="invalid-feedback">
+              Image should be valid
+            </div>
+          </div>
+
+          <!-- Price -->
+          <div class="mb-3">
+            <label for="price" class="form-label fw-semibold text-label">
+              Price
+            </label>
+            <input
+              type="text"
+              id="price"
+              name="price"
+              class="form-control input-custom"
+              value="<%= list.price %>"
+              required>
+            <div class="invalid-feedback">
+              Price should be valid
+            </div>
+          </div>
+
+          <!-- Location -->
+          <div class="mb-3">
+            <label for="loc" class="form-label fw-semibold text-label">
+              Location
+            </label>
+            <input
+              type="text"
+              id="loc"
+              name="loc"
+              class="form-control input-custom"
+              value="<%= list.location %>"
+              required>
+            <div class="invalid-feedback">
+              Location should be valid
+            </div>
+          </div>
+
+          <!-- Country -->
+          <div class="mb-4">
+            <label for="country" class="form-label fw-semibold text-label">
+              Country
+            </label>
+            <input
+              type="text"
+              id="country"
+              name="country"
+              class="form-control input-custom"
+              value="<%= list.country %>"
+              required>
+            <div class="invalid-feedback">
+              Country should be valid
+            </div>
+          </div>
+
+          <!-- Category -->
+          <div class="mb-4">
+            <label for="category" class="form-label fw-semibold text-label">
+              Category
+            </label>
+            <select
+              id="category"
+              name="category"
+              class="form-select input-custom"
+              required>
+              <% const categories = ["Trending", "Rooms", "Entire Homes", "Beach", "Mountain", "City", "Nature", "Resorts", "Adventure", "Snow", "Luxury", "Wellness", "Family"]; %>
+              <% for(let cat of categories) { %>
+                <option value="<%= cat %>" <%= list.category === cat ? 'selected' : '' %>><%= cat %></option>
+              <% } %>
+            </select>
+            <div class="invalid-feedback">
+              Please select a category
+            </div>
+          </div>
+
+          <!-- Save -->
+          <div class="d-grid">
+            <button type="submit" class="btn btn-save">
+              Save changes
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+
+  </div>
+</body>

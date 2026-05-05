@@ -1,0 +1,158 @@
+<% layout('/layouts/boilerplate.ejs') -%>
+<body>
+  <%- include('../includes/navbar.ejs') -%>
+  <%- include('../includes/flash.ejs')-%>
+
+  <div class="bg-page">
+    <div class="container">
+
+      <!-- FILTER BAR -->
+      <div class="belowNav py-3">
+        <div id="filters" class="filters-container pe-3">
+
+          <div class="filter active">
+            <i class="fa-solid fa-fire"></i>
+            <p>Trending</p>
+          </div>
+
+          <div class="filter">
+            <i class="fa-solid fa-bed"></i>
+            <p>Rooms</p>
+          </div>
+
+          <div class="filter">
+            <i class="fa-solid fa-house"></i>
+            <p>Entire Homes</p>
+          </div>
+
+          <div class="filter">
+            <i class="fa-solid fa-water"></i>
+            <p>Beach</p>
+          </div>
+
+          <div class="filter">
+            <i class="fa-solid fa-mountain"></i>
+            <p>Mountain</p>
+          </div>
+
+          <div class="filter">
+            <i class="fa-solid fa-city"></i>
+            <p>City</p>
+          </div>
+
+          <div class="filter">
+            <i class="fa-solid fa-tree"></i>
+            <p>Nature</p>
+          </div>
+
+          <div class="filter">
+            <i class="fa-solid fa-umbrella-beach"></i>
+            <p>Resorts</p>
+          </div>
+
+          <div class="filter">
+            <i class="fa-solid fa-person-hiking"></i>
+            <p>Adventure</p>
+          </div>
+
+          <div class="filter">
+            <i class="fa-solid fa-snowflake"></i>
+            <p>Snow</p>
+          </div>
+
+          <div class="filter">
+            <i class="fa-solid fa-house-chimney-window"></i>
+            <p>Luxury</p>
+          </div>
+
+          <div class="filter">
+            <i class="fa-solid fa-spa"></i>
+            <p>Wellness</p>
+          </div>
+
+          <div class="filter">
+            <i class="fa-solid fa-people-roof"></i>
+            <p>Family</p>
+          </div>
+        </div>
+
+        <!-- TAX TOGGLE -->
+        <div class="tax-toggle">
+          <div class="form-check form-switch tax-switch">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              role="switch"
+              id="flexSwitchCheckDefault">
+            <label class="form-check-label" for="flexSwitchCheckDefault">
+              Display total price
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- LISTINGS -->
+      <div class="row g-4 mt-3">
+        <% for (let list of lists) { %>
+          <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
+            <a href="/listings/<%= list._id %>" class="text-decoration-none">
+
+              <div class="listing-card">
+
+                <img
+                  src="<%= list.image.url || list.image %>"
+                  class="listing-img"
+                  alt="listing image">
+
+                <div class="listing-body">
+                  <p class="listing-title"><%= list.title %></p>
+                  <p class="listing-price">
+                    ₹ <%= list.price.toLocaleString("en-IN") %> / night
+                  </p>
+                  <span class="tax-info">+18% GST</span>
+                </div>
+
+              </div>
+            </a>
+          </div>
+        <% } %>
+      </div>
+
+    </div>
+  </div>
+
+  <%- include('../includes/footer.ejs') -%>
+
+  <!-- EXISTING JS (UNCHANGED) -->
+  <script>
+    document.querySelectorAll(".filter").forEach(filter => {
+      filter.addEventListener("click", () => {
+        let categoryName = filter.querySelector("p").innerText.trim();
+        window.location.href = `/listings?category=${encodeURIComponent(categoryName)}`;
+      });
+    });
+
+    // Highlight the active filter upon load
+    const urlParams = new URLSearchParams(window.location.search);
+    const categoryName = urlParams.get('category');
+    if (categoryName) {
+      document.querySelector(".filter.active")?.classList.remove("active");
+      document.querySelectorAll(".filter").forEach(filter => {
+        if (filter.querySelector("p").innerText.trim() === categoryName) {
+          filter.classList.add("active");
+        }
+      });
+    }
+  </script>
+
+  <script>
+    const taxSwitch = document.getElementById("flexSwitchCheckDefault");
+    const taxInfo = document.querySelectorAll(".tax-info");
+
+    taxSwitch.addEventListener("change", () => {
+      taxInfo.forEach(info => {
+        info.style.display = taxSwitch.checked ? "inline" : "none";
+      });
+    });
+  </script>
+</body>

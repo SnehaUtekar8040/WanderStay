@@ -1,0 +1,87 @@
+<% layout('/layouts/boilerplate.ejs') -%>
+<body>
+  <%- include('../includes/navbar.ejs') -%>
+  <%- include('../includes/flash.ejs') -%>
+
+  <div class="bg-page auth-bg">
+    <div class="container py-5">
+
+      <h2 class="page-title text-center mb-4">Create account</h2>
+
+      <div class="row justify-content-center">
+        <div class="col-12 col-sm-10 col-md-6 col-lg-5">
+
+          <div class="auth-card shadow-sm">
+
+            <form action="/signup" method="POST" class="needs-validation" novalidate>
+
+              <!-- Username -->
+              <div class="mb-3">
+                <label class="form-label">Username</label>
+                <input
+                  type="text"
+                  class="form-control auth-input"
+                  name="username"
+                  required
+                  minlength="3"
+                >
+                <div class="valid-feedback">Looks good!</div>
+                <div class="invalid-feedback">
+                  Username must be at least 3 characters.
+                </div>
+              </div>
+
+              <!-- Email -->
+              <div class="mb-3">
+                <label class="form-label">Email</label>
+                <input
+                  type="email"
+                  class="form-control auth-input"
+                  name="email"
+                  required
+                >
+                <div class="valid-feedback">Valid email 👍</div>
+                <div class="invalid-feedback">
+                  Please enter a valid email.
+                </div>
+              </div>
+
+              <!-- Password -->
+              <div class="mb-4">
+                <label class="form-label">Password</label>
+                <input
+                  type="password"
+                  class="form-control auth-input"
+                  name="password"
+                  required
+                  minlength="6"
+                >
+                <div class="valid-feedback">Strong password!</div>
+                <div class="invalid-feedback">
+                  Password must be at least 6 characters.
+                </div>
+              </div>
+
+              <div class="d-grid">
+                <button class="btn add-btn auth-btn">
+                  Create account
+                </button>
+              </div>
+
+            </form>
+
+            <p class="text-center mt-3 mb-0 auth-footer-text">
+              Already have an account?
+              <a href="/login" class="auth-link">Log in</a>
+            </p>
+
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <%- include('../includes/footer.ejs') -%>
+</body>
