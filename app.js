@@ -5,7 +5,7 @@ if (process.env.NODE_ENV !== "production") {
 const session = require('express-session')
 const MongoStore = require("connect-mongo").default;
 
-const dbUrl = process.env.MONGO_URL;
+const dbUrl = process.env.ATLASDB;
 const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
@@ -49,9 +49,9 @@ const sessionOptions = {
   store,
   secret: process.env.SECRET_CODE,
   resave: false,
-  saveUnintialized: true,
+  saveUninitialized: true,
   cookie: {
-    expires: Date.now + 1000 * 60 * 60 * 24 * 7,
+    expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
     maxAge: 1000 * 60 * 60 * 24 * 3,
     httpOnly: true,
   }

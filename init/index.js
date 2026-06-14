@@ -4,7 +4,7 @@ const Listing = require('../models/listing')
 if (process.env.NODE_ENV !== "production") {
   require("dotenv").config({ path: '../.env' });
 }
-const dbUrl = process.env.MONGO_URL || 'mongodb://127.0.0.1:27017/wander_lust';
+const dbUrl = process.env.ATLASDB || 'mongodb://127.0.0.1:27017/wander_lust';
 
 async function main(){
    await mongoose.connect(dbUrl)
